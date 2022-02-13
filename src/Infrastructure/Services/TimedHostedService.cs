@@ -6,7 +6,6 @@ namespace Infrastructure.Services
 {
     public class TimedHostedService : IHostedService, IDisposable
     {
-        private int executionCount = 0;
         private readonly ILogger<TimedHostedService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private Timer _timer = null!;
@@ -22,7 +21,7 @@ namespace Infrastructure.Services
             _logger.LogInformation("Timed Hosted Service running.");
 
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(30));
+                TimeSpan.FromMinutes(5));
 
             return Task.CompletedTask;
         }
@@ -33,7 +32,7 @@ namespace Infrastructure.Services
             var response = await client.GetAsync("shows");
             response.EnsureSuccessStatusCode();
 
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var tvMazeApiDto = TvMazeApiShowResponseDto.FromJson(responseContent);
             var list2014 = tvMazeApiDto.Where(x => x.Premiered >= new DateTimeOffset(2014, 01, 01, 0, 0, 0, new TimeSpan(0, 0, 0))).OrderByDescending(x => x.Premiered).ToList();
 
