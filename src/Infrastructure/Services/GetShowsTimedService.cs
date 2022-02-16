@@ -4,13 +4,13 @@ using Infrastructure.Dto;
 
 namespace Infrastructure.Services
 {
-    public class TimedHostedService : IHostedService, IDisposable
+    public class GetShowsTimedService : IHostedService, IDisposable
     {
-        private readonly ILogger<TimedHostedService> _logger;
+        private readonly ILogger<GetShowsTimedService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private Timer _timer = null!;
 
-        public TimedHostedService(ILogger<TimedHostedService> logger, IHttpClientFactory httpClientFactory)
+        public GetShowsTimedService(ILogger<GetShowsTimedService> logger, IHttpClientFactory httpClientFactory)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
