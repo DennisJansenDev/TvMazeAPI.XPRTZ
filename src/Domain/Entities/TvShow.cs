@@ -45,6 +45,10 @@ namespace Domain.Entities
     {
         public double Average { get; private set; }
 
+        private Rating()
+        {
+        }
+
         private Rating(double average)
         {
             if (average < 1.0 || average > 10.0)

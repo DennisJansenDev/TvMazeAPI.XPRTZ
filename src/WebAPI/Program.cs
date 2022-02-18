@@ -1,3 +1,4 @@
+using Application;
 using Infrastructure;
 using Serilog;
 
@@ -12,11 +13,14 @@ try
     var builder = WebApplication.CreateBuilder(args);
     
     builder.Host.UseSerilog();
+
+
+    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddApplication();
     // Add services to the container.
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
-    builder.Services.AddInfrastructure(builder.Configuration);
 
     var app = builder.Build();
 

@@ -12,6 +12,7 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<TvMazeApiDbContext>(options => options.UseInMemoryDatabase("TvMazeDb"));
+            services.AddScoped<ITvMazeApiDbContext>(provider => provider.GetRequiredService<TvMazeApiDbContext>());
 
             services.AddHttpClient("TvMaze", httpClient =>
             {
