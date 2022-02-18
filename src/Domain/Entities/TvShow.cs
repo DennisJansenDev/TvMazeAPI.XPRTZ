@@ -11,7 +11,7 @@ namespace Domain.Entities
         public DateTime Premiered { get; private set; }
         public ICollection<Genre> Genres { get; private set; }
         public string Summary { get; private set; }
-        public Rating Rating { get; private set; } = new Rating(1.0);
+        public Rating Rating { get; private set; } = Rating.FromDouble(1.0);
 
         //Private parameterless constructor for EFCore
         private TvShow()
@@ -45,13 +45,15 @@ namespace Domain.Entities
     {
         public double Average { get; private set; }
 
-        public Rating(double average)
+        private Rating(double average)
         {
             if (average < 1.0 || average > 10.0)
                 throw new ArgumentOutOfRangeException(nameof(average), "Supply a double between 1.0 and 10.0");
 
             Average = average;
         }
+
+        public static Rating FromDouble(double average) => new Rating(average);
 
         public override string ToString() => "Rating: " + Average;
 

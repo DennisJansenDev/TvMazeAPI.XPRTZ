@@ -11,7 +11,7 @@ namespace Domain.UnitTests.ValueObjects
         [InlineData(0.9)]
         public void ShouldThrowArgumentOutOfRangeException(double outOfRangeValue)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Rating(outOfRangeValue));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Rating.FromDouble(outOfRangeValue));
         }
 
         [Theory]
@@ -19,7 +19,7 @@ namespace Domain.UnitTests.ValueObjects
         [InlineData(1.0)]
         public void ShouldReturnValidRatingObject(double expectedAverage)
         {
-            var result = new Rating(expectedAverage);
+            var result = Rating.FromDouble(expectedAverage);
             Assert.Equal(expectedAverage, result.Average);
         }
 
