@@ -3,6 +3,7 @@ using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Application.Interfaces;
 
 namespace Infrastructure
 {
@@ -16,7 +17,8 @@ namespace Infrastructure
             {
                 httpClient.BaseAddress = new Uri(configuration["AppSettings:TvMazeBaseUri"]);
             });
-            services.AddHostedService<GetShowsTimedService>();
+
+            services.AddHostedService<TvMazeScraperService>();
             return services;
         }
 

@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Interfaces
 {
     public interface ITvMazeApiDbContext
     {
-        DbSet<TvMazeShow> TvMazeShows { get; }
+        DbSet<TvShow> TvMazeShows { get; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

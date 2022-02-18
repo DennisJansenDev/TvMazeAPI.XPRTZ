@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -6,7 +7,10 @@ namespace Infrastructure.Persistence
 {
     public class TvMazeApiDbContext : DbContext, ITvMazeApiDbContext
     {
-        public DbSet<TvMazeShow> TvMazeShows => Set<TvMazeShow>();
+        public TvMazeApiDbContext(DbContextOptions<TvMazeApiDbContext> options) : base(options)
+        {
+        }
+        public DbSet<TvShow> TvMazeShows => Set<TvShow>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

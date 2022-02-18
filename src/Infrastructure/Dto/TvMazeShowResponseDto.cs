@@ -12,13 +12,14 @@ namespace Infrastructure.Dto
     using System.Collections.Generic;
 
     using System.Globalization;
+    using Domain.Entities;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
     public partial class TvMazeApiShowResponseDto
     {
         [JsonProperty("id")]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("url")]
         public Uri Url { get; set; }
@@ -33,7 +34,7 @@ namespace Infrastructure.Dto
         public Language Language { get; set; }
 
         [JsonProperty("genres")]
-        public Genre[] Genres { get; set; }
+        public GenreType[] Genres { get; set; }
 
         [JsonProperty("status")]
         public Status Status { get; set; }
@@ -153,12 +154,6 @@ namespace Infrastructure.Dto
         public Uri OfficialSite { get; set; }
     }
 
-    public partial class Rating
-    {
-        [JsonProperty("average")]
-        public double? Average { get; set; }
-    }
-
     public partial class Schedule
     {
         [JsonProperty("time")]
@@ -173,8 +168,6 @@ namespace Infrastructure.Dto
     public enum Name { Canada, France, Germany, Japan, UnitedKingdom, UnitedStates };
 
     public enum Timezone { AmericaHalifax, AmericaNewYork, AsiaTokyo, EuropeBusingen, EuropeLondon, EuropeParis };
-
-    public enum Genre { Action, Adventure, Anime, Comedy, Crime, Drama, Espionage, Family, Fantasy, History, Horror, Legal, Medical, Music, Mystery, Romance, ScienceFiction, Sports, Supernatural, Thriller, War, Western };
 
     public enum Language { English, Japanese };
 
@@ -202,6 +195,8 @@ namespace Infrastructure.Dto
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
+            DefaultValueHandling = DefaultValueHandling.Populate,
+            NullValueHandling = NullValueHandling.Ignore,
             Converters =
             {
                 CodeConverter.Singleton,
@@ -403,7 +398,7 @@ namespace Infrastructure.Dto
 
     internal class GenreConverter : JsonConverter
     {
-        public override bool CanConvert(Type t) => t == typeof(Genre) || t == typeof(Genre?);
+        public override bool CanConvert(Type t) => t == typeof(GenreType) || t == typeof(GenreType?);
 
         public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
         {
@@ -412,49 +407,49 @@ namespace Infrastructure.Dto
             switch (value)
             {
                 case "Action":
-                    return Genre.Action;
+                    return GenreType.Action;
                 case "Adventure":
-                    return Genre.Adventure;
+                    return GenreType.Adventure;
                 case "Anime":
-                    return Genre.Anime;
+                    return GenreType.Anime;
                 case "Comedy":
-                    return Genre.Comedy;
+                    return GenreType.Comedy;
                 case "Crime":
-                    return Genre.Crime;
+                    return GenreType.Crime;
                 case "Drama":
-                    return Genre.Drama;
+                    return GenreType.Drama;
                 case "Espionage":
-                    return Genre.Espionage;
+                    return GenreType.Espionage;
                 case "Family":
-                    return Genre.Family;
+                    return GenreType.Family;
                 case "Fantasy":
-                    return Genre.Fantasy;
+                    return GenreType.Fantasy;
                 case "History":
-                    return Genre.History;
+                    return GenreType.History;
                 case "Horror":
-                    return Genre.Horror;
+                    return GenreType.Horror;
                 case "Legal":
-                    return Genre.Legal;
+                    return GenreType.Legal;
                 case "Medical":
-                    return Genre.Medical;
+                    return GenreType.Medical;
                 case "Music":
-                    return Genre.Music;
+                    return GenreType.Music;
                 case "Mystery":
-                    return Genre.Mystery;
+                    return GenreType.Mystery;
                 case "Romance":
-                    return Genre.Romance;
+                    return GenreType.Romance;
                 case "Science-Fiction":
-                    return Genre.ScienceFiction;
+                    return GenreType.ScienceFiction;
                 case "Sports":
-                    return Genre.Sports;
+                    return GenreType.Sports;
                 case "Supernatural":
-                    return Genre.Supernatural;
+                    return GenreType.Supernatural;
                 case "Thriller":
-                    return Genre.Thriller;
+                    return GenreType.Thriller;
                 case "War":
-                    return Genre.War;
+                    return GenreType.War;
                 case "Western":
-                    return Genre.Western;
+                    return GenreType.Western;
             }
             throw new Exception("Cannot unmarshal type Genre");
         }
@@ -466,73 +461,73 @@ namespace Infrastructure.Dto
                 serializer.Serialize(writer, null);
                 return;
             }
-            var value = (Genre)untypedValue;
+            var value = (GenreType)untypedValue;
             switch (value)
             {
-                case Genre.Action:
+                case GenreType.Action:
                     serializer.Serialize(writer, "Action");
                     return;
-                case Genre.Adventure:
+                case GenreType.Adventure:
                     serializer.Serialize(writer, "Adventure");
                     return;
-                case Genre.Anime:
+                case GenreType.Anime:
                     serializer.Serialize(writer, "Anime");
                     return;
-                case Genre.Comedy:
+                case GenreType.Comedy:
                     serializer.Serialize(writer, "Comedy");
                     return;
-                case Genre.Crime:
+                case GenreType.Crime:
                     serializer.Serialize(writer, "Crime");
                     return;
-                case Genre.Drama:
+                case GenreType.Drama:
                     serializer.Serialize(writer, "Drama");
                     return;
-                case Genre.Espionage:
+                case GenreType.Espionage:
                     serializer.Serialize(writer, "Espionage");
                     return;
-                case Genre.Family:
+                case GenreType.Family:
                     serializer.Serialize(writer, "Family");
                     return;
-                case Genre.Fantasy:
+                case GenreType.Fantasy:
                     serializer.Serialize(writer, "Fantasy");
                     return;
-                case Genre.History:
+                case GenreType.History:
                     serializer.Serialize(writer, "History");
                     return;
-                case Genre.Horror:
+                case GenreType.Horror:
                     serializer.Serialize(writer, "Horror");
                     return;
-                case Genre.Legal:
+                case GenreType.Legal:
                     serializer.Serialize(writer, "Legal");
                     return;
-                case Genre.Medical:
+                case GenreType.Medical:
                     serializer.Serialize(writer, "Medical");
                     return;
-                case Genre.Music:
+                case GenreType.Music:
                     serializer.Serialize(writer, "Music");
                     return;
-                case Genre.Mystery:
+                case GenreType.Mystery:
                     serializer.Serialize(writer, "Mystery");
                     return;
-                case Genre.Romance:
+                case GenreType.Romance:
                     serializer.Serialize(writer, "Romance");
                     return;
-                case Genre.ScienceFiction:
+                case GenreType.ScienceFiction:
                     serializer.Serialize(writer, "Science-Fiction");
                     return;
-                case Genre.Sports:
+                case GenreType.Sports:
                     serializer.Serialize(writer, "Sports");
                     return;
-                case Genre.Supernatural:
+                case GenreType.Supernatural:
                     serializer.Serialize(writer, "Supernatural");
                     return;
-                case Genre.Thriller:
+                case GenreType.Thriller:
                     serializer.Serialize(writer, "Thriller");
                     return;
-                case Genre.War:
+                case GenreType.War:
                     serializer.Serialize(writer, "War");
                     return;
-                case Genre.Western:
+                case GenreType.Western:
                     serializer.Serialize(writer, "Western");
                     return;
             }
