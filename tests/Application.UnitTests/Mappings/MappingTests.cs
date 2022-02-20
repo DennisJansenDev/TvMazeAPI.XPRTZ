@@ -1,4 +1,5 @@
 ﻿using Application.Mappings;
+using Application.TvShows.Queries.GetTvShowById;
 using Application.TvShows.Queries.GetTvShows;
 using AutoMapper;
 using Domain.Entities;

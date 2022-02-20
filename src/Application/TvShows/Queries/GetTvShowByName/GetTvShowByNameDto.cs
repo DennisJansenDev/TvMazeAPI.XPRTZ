@@ -2,9 +2,9 @@
 using Domain.Entities;
 using Domain.ValueObjects;
 
-namespace Application.TvShows.Queries.GetTvShows
+namespace Application.TvShows.Queries.GetTvShowByName
 {
-    public class GetTvShowsDto : IMapFrom<TvShow>
+    public class GetTvShowByNameDto : IMapFrom<TvShow>
     {
         public int Id { get; set; }
         public int TvMazeId { get; set; }

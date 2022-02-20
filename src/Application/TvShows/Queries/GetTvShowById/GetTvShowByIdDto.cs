@@ -1,7 +1,8 @@
-﻿using Domain.Entities;
+﻿using Application.Mappings;
+using Domain.Entities;
 using Domain.ValueObjects;
 
-namespace Application
+namespace Application.TvShows.Queries.GetTvShowById
 {
     public class GetTvShowByIdDto : IMapFrom<TvShow>
     {
