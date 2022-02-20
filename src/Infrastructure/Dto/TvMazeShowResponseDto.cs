@@ -13,6 +13,7 @@ namespace Infrastructure.Dto
 
     using System.Globalization;
     using Domain.Entities;
+    using Domain.ValueObjects;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 
