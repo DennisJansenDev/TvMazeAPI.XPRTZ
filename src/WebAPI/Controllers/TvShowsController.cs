@@ -1,7 +1,9 @@
 ﻿using Application;
-using Application.TvShows.Commands;
+using Application.TvShows.Commands.CreateTvShow;
 using Application.TvShows.Commands.DeleteTvShow;
 using Application.TvShows.Commands.UpdateTvShow;
+using Application.TvShows.Queries.GetTvShowById;
+using Application.TvShows.Queries.GetTvShowByName;
 using Application.TvShows.Queries.GetTvShows;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +12,7 @@ namespace WebAPI.Controllers
     public class TvShowsController : ApiControllerBase
     {
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<ActionResult<List<GetTvShowsDto>>> Get()
         {
             return await Mediator.Send(new GetTvShowsQuery());
@@ -20,6 +22,12 @@ namespace WebAPI.Controllers
         public async Task<ActionResult<GetTvShowByIdDto>> GetById(int id)
         {
             return await Mediator.Send(new GetTvShowByIdQuery { Id = id });
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<List<GetTvShowByNameDto>>> GetByTvShowName([FromQuery] GetTvShowByNameQuery query)
+        {
+            return await Mediator.Send(query);
         }
 
         [HttpPost]

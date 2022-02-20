@@ -15,8 +15,8 @@ try
     builder.Host.UseSerilog();
 
 
-    builder.Services.AddInfrastructure(builder.Configuration);
     builder.Services.AddApplication();
+    builder.Services.AddInfrastructure(builder.Configuration);
     // Add services to the container.
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

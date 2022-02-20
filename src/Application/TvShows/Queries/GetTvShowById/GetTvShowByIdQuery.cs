@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application
+namespace Application.TvShows.Queries.GetTvShowById
 {
     public class GetTvShowByIdQuery : IRequest<GetTvShowByIdDto>
     {
@@ -35,7 +35,7 @@ namespace Application
                 Summary = tvShowEntity.Summary,
                 TvMazeId = tvShowEntity.TvMazeId
             };
-            
+
             return tvShowDto;
         }
     }

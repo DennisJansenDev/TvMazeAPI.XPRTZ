@@ -3,7 +3,7 @@ using Domain.Entities;
 using Domain.ValueObjects;
 using MediatR;
 
-namespace Application.TvShows.Commands
+namespace Application.TvShows.Commands.CreateTvShow
 {
     public class CreateTvShowCommand : IRequest<int>
     {
@@ -27,12 +27,12 @@ namespace Application.TvShows.Commands
         public async Task<int> Handle(CreateTvShowCommand request, CancellationToken cancellationToken)
         {
             var tvShowEntity = new TvShow(
-                request.Name, 
-                request.Language, 
-                request.Premiered, 
-                request.Genres, 
-                request.Summary, 
-                Rating.FromDouble(request.AverageRating), 
+                request.Name,
+                request.Language,
+                request.Premiered,
+                request.Genres,
+                request.Summary,
+                Rating.FromDouble(request.AverageRating),
                 request.TvMazeId ?? null);
 
             _context.TvMazeShows.Add(tvShowEntity);
