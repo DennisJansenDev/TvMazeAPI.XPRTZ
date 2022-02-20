@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application
 {
-    public class GetTvShowQuery : IRequest<TvShowDto>
+    public class GetTvShowByIdQuery : IRequest<GetTvShowByIdDto>
     {
         public int Id { get; set; }
     }
 
-    public class GetTvShowQueryHandler : IRequestHandler<GetTvShowQuery, TvShowDto>
+    public class GetTvShowQueryHandler : IRequestHandler<GetTvShowByIdQuery, GetTvShowByIdDto>
     {
         private readonly ITvMazeApiDbContext _context;
 
@@ -17,17 +17,17 @@ namespace Application
         {
             _context = context;
         }
-        public async Task<TvShowDto> Handle(GetTvShowQuery request, CancellationToken cancellationToken)
+        public async Task<GetTvShowByIdDto> Handle(GetTvShowByIdQuery request, CancellationToken cancellationToken)
         {
-            var tvShowEntity = await _context.TvMazeShows.Where(x => x.Id == request.Id).FirstOrDefaultAsync();
+            var tvShowEntity = await _context.TvMazeShows.AsNoTracking().Where(x => x.Id == request.Id).FirstOrDefaultAsync();
 
             if (tvShowEntity == null)
                 throw new ArgumentNullException(nameof(tvShowEntity), $"TvShowEntity not found for ID: {request.Id}");
 
-            var tvShowDto = new TvShowDto
+            var tvShowDto = new GetTvShowByIdDto
             {
                 Id = tvShowEntity.Id,
-                Genres = tvShowEntity.Genres,
+                Genres = tvShowEntity.Genres.ToList(),
                 Language = tvShowEntity.Language,
                 Name = tvShowEntity.Name,
                 Premiered = tvShowEntity.Premiered,

@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Infrastructure.Dto;
 using Domain.Entities;
-using Infrastructure.Persistence;
 using Application.Interfaces;
+using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Services
@@ -12,14 +12,14 @@ namespace Infrastructure.Services
     {
         private readonly ILogger<TvMazeScraperService> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly ITvMazeApiDbContext _ctx;
+        private readonly ITvMazeApiDbContext _context;
         private Timer _timer = null!;
 
         public TvMazeScraperService(ILogger<TvMazeScraperService> logger, IHttpClientFactory httpClientFactory, IServiceScopeFactory provider)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
-            _ctx = provider.CreateScope().ServiceProvider.GetRequiredService<TvMazeApiDbContext>();
+            _context = provider.CreateScope().ServiceProvider.GetRequiredService<TvMazeApiDbContext>(); ;
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
@@ -64,11 +64,11 @@ namespace Infrastructure.Services
                 //_logger.LogInformation("Show premeried: {@showPremiered}", show);
                 var tvShowEntity = new TvShow(show.Name, show.Language.ToString(), show.Premiered, genreList, show.Summary, show.Rating, show.Id);
                 _logger.LogError("ShowEntity: {@Show}", tvShowEntity);
-                await _ctx.TvMazeShows.AddAsync(tvShowEntity);
+                await _context.TvMazeShows.AddAsync(tvShowEntity);
             }
-            await _ctx.SaveChangesAsync(new CancellationToken());
+            await _context.SaveChangesAsync(new CancellationToken());
 
-            var allDbShows = _ctx.TvMazeShows.ToList();
+            var allDbShows = _context.TvMazeShows.ToList();
 
             foreach (var show in allDbShows)
                 _logger.LogCritical("DbShow: {ShowName}, {ShowRating}, {ShowPremiered}, {ShowGenreType}", show.Name, show.Rating.ToString(), show.Premiered, show.Genres);

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Domain.Entities;
+using Domain.ValueObjects;
 using MediatR;
 
 namespace Application.TvShows.Commands

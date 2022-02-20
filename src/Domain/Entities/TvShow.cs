@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+﻿using Domain.ValueObjects;
 
 namespace Domain.Entities
 {
@@ -9,61 +9,55 @@ namespace Domain.Entities
         public string Name { get; private set; }
         public string Language { get; private set; }
         public DateTime Premiered { get; private set; }
-        public ICollection<Genre> Genres { get; private set; }
         public string Summary { get; private set; }
         public Rating Rating { get; private set; } = Rating.FromDouble(1.0);
 
+        private List<Genre> _genres = new List<Genre>();
+
+        public IEnumerable<Genre> Genres => _genres.AsReadOnly();
+
         //Private parameterless constructor for EFCore
-        private TvShow()
+        public TvShow()
         {
         }
 
         public TvShow(string name, string language, DateTime premiered, List<Genre> genres, string summary, Rating rating, int? tvMazeId)
         {
-            Name = name;
-            Language = language;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Language = language ?? throw new ArgumentNullException(nameof(language));
+            Summary = summary ?? throw new ArgumentNullException(nameof(summary));
+            Rating = rating ?? throw new ArgumentNullException(nameof(rating));
+            _genres = genres ?? throw new ArgumentNullException(nameof(genres));
+
             Premiered = premiered;
-            Genres = genres;
-            Summary = summary;
-            Rating = rating;
 
             if (tvMazeId.HasValue)
                 TvMazeId = tvMazeId.Value;
         }
-    }
-    public class Genre
-    {
-        public int Id { get; set; }
-        public GenreType GenreType { get; set; }
 
-        public override string ToString() => GenreType.ToString();
-    }
-
-    public enum GenreType { Action, Adventure, Anime, Comedy, Crime, Drama, Espionage, Family, Fantasy, History, Horror, Legal, Medical, Music, Mystery, Romance, ScienceFiction, Sports, Supernatural, Thriller, War, Western };
-
-    public class Rating : ValueObject
-    {
-        public double Average { get; private set; }
-
-        private Rating()
+        public void UpdateTvShow(string? name, string? language, string? summary, int? tvMazeId)
         {
+            if (!string.IsNullOrEmpty(name))
+                Name = name;
+            if (!string.IsNullOrEmpty(language))
+                Language = language;
+            if (!string.IsNullOrEmpty(summary))
+                Summary = summary;
+            if (tvMazeId.HasValue)
+                TvMazeId = tvMazeId.Value;
         }
 
-        private Rating(double average)
+        public void AddGenre(GenreType genreType)
         {
-            if (average < 1.0 || average > 10.0)
-                throw new ArgumentOutOfRangeException(nameof(average), "Supply a double between 1.0 and 10.0");
+            if (_genres.Count >= 3)
+                throw new ArgumentOutOfRangeException("A TvShow can only hold 3 types of genres.");
 
-            Average = average;
+            _genres.Add(new Genre { GenreType = genreType });
         }
 
-        public static Rating FromDouble(double average) => new Rating(average);
-
-        public override string ToString() => "Rating: " + Average;
-
-        protected override IEnumerable<object> GetEqualityComponents()
+        public void UpdateRating(double newRating)
         {
-            yield return Average;
+            Rating = Rating.FromDouble(newRating);
         }
     }
 }
