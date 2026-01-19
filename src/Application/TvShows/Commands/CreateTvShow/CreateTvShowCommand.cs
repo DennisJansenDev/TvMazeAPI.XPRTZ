@@ -7,11 +7,11 @@ namespace Application.TvShows.Commands.CreateTvShow
 {
     public class CreateTvShowCommand : IRequest<int>
     {
-        public string Name { get; set; }
-        public string Language { get; set; }
+        public string Name { get; set; } = null!;
+        public string Language { get; set; } = null!;
         public DateTime Premiered { get; set; }
         public List<Genre> Genres { get; set; } = new List<Genre>();
-        public string Summary { get; set; }
+        public string Summary { get; set; } = null!;
         public double AverageRating { get; set; }
         public int? TvMazeId { get; set; }
     }
