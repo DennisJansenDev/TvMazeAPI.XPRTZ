@@ -23,10 +23,10 @@ namespace Infrastructure.Dto
         public int Id { get; set; }
 
         [JsonProperty("url")]
-        public Uri Url { get; set; }
+        public Uri Url { get; set; } = null!;
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [JsonProperty("type")]
         public TypeEnum Type { get; set; }
@@ -35,7 +35,7 @@ namespace Infrastructure.Dto
         public Language Language { get; set; }
 
         [JsonProperty("genres")]
-        public GenreType[] Genres { get; set; }
+        public GenreType[] Genres { get; set; } = null!;
 
         [JsonProperty("status")]
         public Status Status { get; set; }
@@ -53,40 +53,40 @@ namespace Infrastructure.Dto
         public DateTimeOffset? Ended { get; set; }
 
         [JsonProperty("officialSite")]
-        public Uri OfficialSite { get; set; }
+        public Uri OfficialSite { get; set; } = null!;
 
         [JsonProperty("schedule")]
-        public Schedule Schedule { get; set; }
+        public Schedule Schedule { get; set; } = null!;
 
         [JsonProperty("rating")]
-        public Rating Rating { get; set; }
+        public Rating Rating { get; set; } = null!;
 
         [JsonProperty("weight")]
         public long Weight { get; set; }
 
         [JsonProperty("network")]
-        public Network Network { get; set; }
+        public Network Network { get; set; } = null!;
 
         [JsonProperty("webChannel")]
-        public Network WebChannel { get; set; }
+        public Network WebChannel { get; set; } = null!;
 
         [JsonProperty("dvdCountry")]
-        public Country DvdCountry { get; set; }
+        public Country DvdCountry { get; set; } = null!;
 
         [JsonProperty("externals")]
-        public Externals Externals { get; set; }
+        public Externals Externals { get; set; } = null!;
 
         [JsonProperty("image")]
-        public Image Image { get; set; }
+        public Image Image { get; set; } = null!;
 
         [JsonProperty("summary")]
-        public string Summary { get; set; }
+        public string Summary { get; set; } = null!;
 
         [JsonProperty("updated")]
         public long Updated { get; set; }
 
         [JsonProperty("_links")]
-        public Links Links { get; set; }
+        public Links Links { get; set; } = null!;
     }
 
     public partial class Country
@@ -110,34 +110,34 @@ namespace Infrastructure.Dto
         public long? Thetvdb { get; set; }
 
         [JsonProperty("imdb")]
-        public string Imdb { get; set; }
+        public string Imdb { get; set; } = null!;
     }
 
     public partial class Image
     {
         [JsonProperty("medium")]
-        public Uri Medium { get; set; }
+        public Uri Medium { get; set; } = null!;
 
         [JsonProperty("original")]
-        public Uri Original { get; set; }
+        public Uri Original { get; set; } = null!;
     }
 
     public partial class Links
     {
         [JsonProperty("self")]
-        public Nextepisode Self { get; set; }
+        public Nextepisode Self { get; set; } = null!;
 
         [JsonProperty("previousepisode")]
-        public Nextepisode Previousepisode { get; set; }
+        public Nextepisode Previousepisode { get; set; } = null!;
 
         [JsonProperty("nextepisode", NullValueHandling = NullValueHandling.Ignore)]
-        public Nextepisode Nextepisode { get; set; }
+        public Nextepisode Nextepisode { get; set; } = null!;
     }
 
     public partial class Nextepisode
     {
         [JsonProperty("href")]
-        public Uri Href { get; set; }
+        public Uri Href { get; set; } = null!;
     }
 
     public partial class Network
@@ -146,13 +146,13 @@ namespace Infrastructure.Dto
         public long Id { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [JsonProperty("country")]
-        public Country Country { get; set; }
+        public Country Country { get; set; } = null!;
 
         [JsonProperty("officialSite")]
-        public Uri OfficialSite { get; set; }
+        public Uri OfficialSite { get; set; } = null!;
     }
 
     public partial class Schedule
@@ -161,7 +161,7 @@ namespace Infrastructure.Dto
         public Time Time { get; set; }
 
         [JsonProperty("days")]
-        public Day[] Days { get; set; }
+        public Day[] Days { get; set; } = null!;
     }
 
     public enum Code { Ca, De, Fr, Gb, Jp, Us };
