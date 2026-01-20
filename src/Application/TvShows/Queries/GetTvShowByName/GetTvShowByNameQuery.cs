@@ -8,7 +8,7 @@ namespace Application.TvShows.Queries.GetTvShowByName
 {
     public class GetTvShowByNameQuery : IRequest<List<GetTvShowByNameDto>>
     {
-        public string SearchPartTvShowName { get; set; }
+        public required string SearchPartTvShowName { get; set; }
     }
 
     public class GetTvShowByNameQueryHandler : IRequestHandler<GetTvShowByNameQuery, List<GetTvShowByNameDto>>
