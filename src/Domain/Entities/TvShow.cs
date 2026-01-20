@@ -6,10 +6,10 @@ namespace Domain.Entities
     {
         public int Id { get; private set; }
         public int TvMazeId { get; private set; }
-        public string Name { get; private set; }
-        public string Language { get; private set; }
+        public string Name { get; private set; } = null!;
+        public string Language { get; private set; } = null!;
         public DateTime Premiered { get; private set; }
-        public string Summary { get; private set; }
+        public string Summary { get; private set; } = null!;
         public Rating Rating { get; private set; } = Rating.FromDouble(1.0);
 
         private List<Genre> _genres = new List<Genre>();

@@ -32,7 +32,7 @@ namespace Infrastructure.Services
             return Task.CompletedTask;
         }
 
-        private async void DoWork(object? state)
+        private async void DoWork(object? _)
         {
             var client = _httpClientFactory.CreateClient("TvMaze");
             var response = await client.GetAsync("shows");
@@ -40,7 +40,6 @@ namespace Infrastructure.Services
 
             var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             var tvMazeApiDto = TvMazeApiShowResponseDto.FromJson(responseContent);
-            //var listShows2014AndAbove = tvMazeApiDto.Where(x => x.Premiered >= new DateTimeOffset(2014, 01, 01, 0, 0, 0, new TimeSpan(0, 0, 0))).OrderBy(x => x.Premiered).ToList();
             var listShows2014AndAbove = tvMazeApiDto.Where(x => x.Premiered >= new DateTime(2014, 01, 01)).OrderBy(x => x.Premiered).ToList();
 
             foreach (var show in tvMazeApiDto)
@@ -61,7 +60,6 @@ namespace Infrastructure.Services
                     genreList.Add(newGenre);
                 }
 
-                //_logger.LogInformation("Show premeried: {@showPremiered}", show);
                 var tvShowEntity = new TvShow(show.Name, show.Language.ToString(), show.Premiered, genreList, show.Summary, show.Rating, show.Id);
                 _logger.LogError("ShowEntity: {@Show}", tvShowEntity);
                 await _context.TvMazeShows.AddAsync(tvShowEntity);

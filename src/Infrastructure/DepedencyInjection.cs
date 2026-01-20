@@ -16,7 +16,7 @@ namespace Infrastructure
 
             services.AddHttpClient("TvMaze", httpClient =>
             {
-                httpClient.BaseAddress = new Uri(configuration["AppSettings:TvMazeBaseUri"]);
+                httpClient.BaseAddress = new Uri(configuration["AppSettings:TvMazeBaseUri"] ?? throw new InvalidOperationException("TvMazeBaseUri configuration is missing"));
             });
 
             services.AddHostedService<TvMazeScraperService>();
