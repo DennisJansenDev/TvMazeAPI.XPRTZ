@@ -3,12 +3,14 @@ using System.Data.Common;
 using Infrastructure.Persistence;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Respawn;
 
 namespace Application.FunctionalTests;
 
 public class SqliteTestDatabase : ITestDatabase
 {
     private readonly SqliteConnection _connection;
+    private Respawn.Respawner _respawner = null!;
 
     public SqliteTestDatabase()
     {
@@ -17,12 +19,10 @@ public class SqliteTestDatabase : ITestDatabase
 
     public async Task InitialiseAsync()
     {
-        if (_connection.State == ConnectionState.Open)
+        if (_connection.State != ConnectionState.Open)
         {
-            await _connection.CloseAsync();
+            await _connection.OpenAsync();
         }
-
-        await _connection.OpenAsync();
 
         var options = new DbContextOptionsBuilder<TvMazeApiDbContext>()
             .UseSqlite(_connection)
@@ -30,8 +30,12 @@ public class SqliteTestDatabase : ITestDatabase
 
         var context = new TvMazeApiDbContext(options);
 
-        await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
+
+        _respawner = await Respawner.CreateAsync(_connection, new RespawnerOptions
+        {
+            DbAdapter = DbAdapter.Sqlite
+        });
     }
 
     public DbConnection GetConnection()
@@ -46,7 +50,7 @@ public class SqliteTestDatabase : ITestDatabase
 
     public async Task ResetAsync()
     {
-        await InitialiseAsync();
+        await _respawner.ResetAsync(_connection);
     }
 
     public async Task DisposeAsync()
