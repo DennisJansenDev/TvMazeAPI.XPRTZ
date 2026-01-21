@@ -3,14 +3,12 @@ using System.Data.Common;
 using Infrastructure.Persistence;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Respawn;
 
 namespace Application.FunctionalTests;
 
 public class SqliteTestDatabase : ITestDatabase
 {
     private readonly SqliteConnection _connection;
-    private Respawn.Respawner _respawner = null!;
 
     public SqliteTestDatabase()
     {
@@ -31,11 +29,6 @@ public class SqliteTestDatabase : ITestDatabase
         var context = new TvMazeApiDbContext(options);
 
         await context.Database.EnsureCreatedAsync();
-
-        _respawner = await Respawner.CreateAsync(_connection, new RespawnerOptions
-        {
-            DbAdapter = DbAdapter.Sqlite
-        });
     }
 
     public DbConnection GetConnection()
@@ -50,7 +43,19 @@ public class SqliteTestDatabase : ITestDatabase
 
     public async Task ResetAsync()
     {
-        await _respawner.ResetAsync(_connection);
+        // For SQLite in-memory databases, we need to manually clear all tables
+        // while keeping the connection open to preserve the schema
+        var options = new DbContextOptionsBuilder<TvMazeApiDbContext>()
+            .UseSqlite(_connection)
+            .Options;
+
+        using var context = new TvMazeApiDbContext(options);
+
+        // Delete all records from all tables
+        // Order matters for foreign key constraints
+        context.TvMazeShows.RemoveRange(context.TvMazeShows);
+
+        await context.SaveChangesAsync();
     }
 
     public async Task DisposeAsync()
